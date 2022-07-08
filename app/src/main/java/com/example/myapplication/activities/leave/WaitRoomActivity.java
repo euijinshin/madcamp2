@@ -21,22 +21,20 @@ import java.util.Random;
 
 public class WaitRoomActivity extends AppCompatActivity {
 
-    private ArrayList<String> items;
-    private RecyclerView recyclerView;
-    WaitRoomAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(com.example.myapplication.R.layout.activity_wait_room);
+        setContentView(R.layout.activity_wait_room);
 
-        items = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvWaitRoom);
-        recyclerView.setLayoutManager(new LinearLayoutManager(WaitRoomActivity.this));
+        list.add("Samuel");
 
-        adapter = new WaitRoomAdapter(WaitRoomActivity.this, items);
+        RecyclerView recyclerView = findViewById(R.id.rvWaitRoom);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        WaitRoomAdapter adapter = new WaitRoomAdapter(WaitRoomActivity.this, list);
         recyclerView.setAdapter(adapter);
-
     }
 }

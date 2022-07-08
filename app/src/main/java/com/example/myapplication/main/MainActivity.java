@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.activities.leave.LeaveActivity;
+import com.example.myapplication.activities.leave.WaitRoomActivity;
 import com.example.myapplication.activities.login.LogInActivity;
 import com.example.myapplication.activities.MapActivity;
 import com.example.myapplication.R;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), LeaveActivity.class);
+                Intent intent = new Intent(getApplicationContext(), WaitRoomActivity.class);
                 startActivity(intent);
             }
         });

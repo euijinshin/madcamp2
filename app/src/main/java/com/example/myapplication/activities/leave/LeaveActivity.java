@@ -1,7 +1,9 @@
 package com.example.myapplication.activities.leave;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -15,11 +17,19 @@ public class LeaveActivity extends AppCompatActivity {
     private InviteFragment fragmentInvite;
     private FragmentTransaction transaction;
 
+    private String host;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leave);
+
+        Intent intent = getIntent();
+        host = intent.getStringExtra("name");
+
+        TextView hostname = findViewById(R.id.hostname);
+        hostname.setText(host);
 
         fragmentManager = getSupportFragmentManager();
 
