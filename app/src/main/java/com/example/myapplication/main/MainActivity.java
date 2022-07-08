@@ -16,6 +16,7 @@ import com.example.myapplication.activities.login.LogInActivity;
 import com.example.myapplication.activities.MapActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.WorktimeActivity;
+import com.example.myapplication.main.notifications.NotificationActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Button map_btn = findViewById(R.id.map_btn);
         Button work_btn = findViewById(R.id.work_btn);
         Button login_btn = findViewById(R.id.login_btn);
+        Button notif_btn = findViewById(R.id.notif_btn);
 
         Button send_notif = findViewById(R.id.send_notif);
 
@@ -75,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        notif_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
                 startActivity(intent);
             }
         });

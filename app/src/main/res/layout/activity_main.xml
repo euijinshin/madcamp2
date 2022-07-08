@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/send_notif"
         android:layout_centerHorizontal="true"
-        android:text="notifications" />
+        android:text="notifications"
+        android:id="@+id/notif_btn"/>
 
     <LinearLayout
         android:layout_width="match_parent"
