@@ -29,9 +29,9 @@ public class NotificationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_notification, container, false);
+        view = inflater.inflate(R.layout.activity_notification, container, false);
         fragment = this;
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler3);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvNotification);
         notificationAdapter = new NotificationAdapter(getActivity(), itemList);
         recyclerView.setAdapter(notificationAdapter);
 
