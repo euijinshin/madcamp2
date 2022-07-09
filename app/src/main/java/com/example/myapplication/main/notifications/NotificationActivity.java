@@ -1,5 +1,6 @@
 package com.example.myapplication.main.notifications;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +27,9 @@ public class NotificationActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         ArrayList<String> list = new ArrayList<>();
 

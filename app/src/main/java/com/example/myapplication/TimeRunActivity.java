@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ComponentName;
@@ -48,6 +49,9 @@ public class TimeRunActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         Intent frommain = getIntent();
         start_time = frommain.getIntExtra("time", 0);
