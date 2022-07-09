@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
@@ -27,10 +26,21 @@ import com.example.myapplication.main.notifications.NotificationActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private String strNick, strProfileImg, strEmail;
+    private TextView textViewResult;
+
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
+
+
+    private String strNick, strProfileImg, strEmail, strAge, strGender;
     TextView tv_maincounter;
     private int start_time;
     private int time;
@@ -66,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
         Button notif_btn = findViewById(R.id.notif_btn);
 
         Button send_notif = findViewById(R.id.send_notif);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://172.10.18.158:443/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
 
 
         send_notif.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         strNick = intent.getStringExtra("name");
         strProfileImg = intent.getStringExtra("profileImg");
         strEmail = intent.getStringExtra("email");
+        strGender = intent.getStringExtra("gender");
+        strAge = intent.getStringExtra("age");
+
         start_time = intent.getIntExtra("time", 0);
         running = intent.getBooleanExtra("running", false);
         unbind = intent.getBooleanExtra("unbind", false);
@@ -136,13 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tv_nick = findViewById(R.id.tv_nickname);
         TextView tv_email = findViewById(R.id.tv_email);
+        TextView details = findViewById(R.id.details);
         ImageView iv_profile = findViewById(R.id.iv_profile);
         tv_maincounter = findViewById(R.id.tv_mainCounter);
 
         // 닉네임 set
         tv_nick.setText(strNick);
-        //
+        // email set
         tv_email.setText(strEmail);
+        // details set
+        details.setText(strAge + ", " + strGender);
 
         //프로필 이미지 사진 set
         Glide.with(this).load(strProfileImg).into(iv_profile);
@@ -202,4 +226,60 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder nb = mNotificationhelper.getChannel1Notification(title, message);
         mNotificationhelper.getManager().notify(1, nb.build());
     }
+
+    private void createPost() {
+        Post post = new Post(strGender, strAge, strNick);
+
+        Call<Post> call = jsonPlaceHolderApi.createPost(post);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Post postResponse = (Post) response.body();
+
+                String content = "";
+                content += "Name" + postResponse.getName() + "\n";
+                content += "Age: " + postResponse.getAge() + "\n";
+                content += "Score: " + postResponse.getScore() + "\n";
+
+                textViewResult.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                textViewResult.setText(t.getMessage());
+            }
+        });
+    }
+
+
+    private void getPosts() {
+
+
+        Post post = new Post();
+
+        Call<Post> call = jsonPlaceHolderApi.getPosts(strNick);
+
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+
+                TextView textView = (TextView) findViewById(R.id.details);
+
+                String content = "";
+                content += "Name" + post.getName() + "\n";
+                content += "Age: " + post.getAge() + "\n";
+                content += "Gender: " + post.getScore() + "\n";
+
+                textViewResult.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                textViewResult.setText(t.getMessage());
+            }
+        });
+
+    }
 }
+
