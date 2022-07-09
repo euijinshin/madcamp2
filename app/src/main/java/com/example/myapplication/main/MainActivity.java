@@ -11,12 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.activities.leave.LeaveActivity;
+import com.example.myapplication.TimeRunActivity;
 import com.example.myapplication.activities.leave.WaitRoomActivity;
 import com.example.myapplication.activities.login.LogInActivity;
 import com.example.myapplication.activities.MapActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.WorktimeActivity;
 import com.example.myapplication.main.notifications.NotificationActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         work_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), WorktimeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TimeRunActivity.class);
                 startActivity(intent);
             }
         });

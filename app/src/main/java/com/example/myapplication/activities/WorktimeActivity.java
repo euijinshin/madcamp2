@@ -1,10 +1,13 @@
 package com.example.myapplication.activities;
 
 import android.annotation.SuppressLint;
-        import android.graphics.Color;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.graphics.Color;
         import android.os.Build;
         import android.os.Handler;
-        import android.os.Message;
+import android.os.IBinder;
+import android.os.Message;
         import android.os.Bundle;
         import android.view.View;
         import android.widget.Button;
@@ -13,6 +16,7 @@ import android.annotation.SuppressLint;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.IMyCounterService;
 import com.example.myapplication.R;
 
 public class WorktimeActivity extends AppCompatActivity {
@@ -21,6 +25,7 @@ public class WorktimeActivity extends AppCompatActivity {
     private TextView mTimeTextView, mRecordTextView;
     private Thread timeThread = null;
     private Boolean isRunning = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,6 @@ public class WorktimeActivity extends AppCompatActivity {
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                mStopBtn.setVisibility(View.VISIBLE);
-                mRecordBtn.setVisibility(View.VISIBLE);
-                mPauseBtn.setVisibility(View.VISIBLE);
-
                 timeThread = new Thread(new timeThread());
                 timeThread.start();
             }
@@ -54,10 +54,6 @@ public class WorktimeActivity extends AppCompatActivity {
         mStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                mRecordBtn.setVisibility(View.GONE);
-                mStartBtn.setVisibility(View.VISIBLE);
-                mPauseBtn.setVisibility(View.GONE);
                 mRecordTextView.setText("");
                 timeThread.interrupt();
             }

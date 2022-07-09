@@ -25,7 +25,7 @@
             android:textStyle="bold" />
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/button"
+                android:layout_marginRight="3dp"
                 android:text="출근" />
 
             <LinearLayout
@@ -46,38 +47,32 @@
 
                 <Button
                     android:id="@+id/btn_record"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:layout_weight="1"
                     android:layout_marginRight="3dp"
                     android:background="@drawable/button"
                     android:text="기록"
-                    android:textColor="@color/black"
-                    android:visibility="invisible" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btn_pause"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:layout_weight="1"
                     android:layout_marginRight="3dp"
                     android:background="@drawable/button"
                     android:text="일시정지"
-                    android:textColor="@color/black"
-                    android:visibility="invisible" />
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btn_stop"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:layout_weight="1"
                     android:background="@drawable/button"
                     android:text="퇴근"
-                    android:textColor="@color/black"
-                    android:visibility="invisible" />
+                    android:textColor="@color/white" />
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
