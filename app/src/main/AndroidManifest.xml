@@ -36,8 +36,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity android:name=".activities.WorktimeActivity" />-->
+        </activity> <!-- <activity android:name=".activities.WorktimeActivity" /> -->
         <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.leave.LeaveActivity" />
         <activity android:name=".activities.login.LogInActivity" />

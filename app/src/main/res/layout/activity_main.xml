@@ -10,79 +10,81 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/send_notif"
-        android:layout_centerHorizontal="true"
-        android:text="notifications"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="100dp"
+        android:text="n"
         android:id="@+id/notif_btn"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_btn"
+        android:layout_alignParentRight="true"
+        android:text="login" />
+
     <LinearLayout
+        android:id="@+id/profile_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="50dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearmain">
+        android:layout_below="@id/notif_btn"
+        android:layout_margin="30dp">
 
-        <Button
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/leave_btn"
-            android:text="leave" />
+            android:orientation="vertical"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/work_btn"
-            android:text="work" />
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/map_btn"
-            android:text="map" />
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_centerHorizontal="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_btn"
-            android:text="login" />
+        </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/profile_lin"
+        tools:context=".TimeRunActivity">
 
-    <ImageView
-        android:id="@+id/iv_profile"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@id/linearmain"
-        android:layout_centerHorizontal="true"
-        />
+        <TextView
+            android:id="@+id/tv_mainCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="70dp"
+            android:text="0:0:0" />
 
-    <TextView
-        android:id="@+id/tv_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/iv_profile"/>
-
-    <TextView
-        android:id="@+id/tv_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/tv_nickname"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_email"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:text="logout"
         />
@@ -94,5 +96,35 @@
         android:text="send"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/logout_btn"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearmain">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leave_btn"
+            android:layout_marginEnd="30dp"
+            android:text="leave" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/work_btn"
+            android:layout_marginEnd="30dp"
+            android:text="time" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/map_btn"
+            android:text="map" />
+
+    </LinearLayout>
 
 </RelativeLayout>

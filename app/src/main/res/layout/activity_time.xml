@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="70dp"
-        android:text="0" />
+        android:text="0:0:0" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,6 +33,7 @@
             android:id="@+id/btnStop"
             android:text="stop"
             android:textSize="40dp"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -12,9 +12,10 @@ import androidx.annotation.Nullable;
 
 public class WorkTimeService extends Service {
 
-    public WorkTimeService(){}
-
+    public WorkTimeService() {
+    }
     private int count;
+    private boolean start;
 
     IMyCounterService.Stub binder = new IMyCounterService.Stub() {
         @Override
@@ -24,12 +25,14 @@ public class WorkTimeService extends Service {
 
         @Override
         public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
         }
     };
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
@@ -41,49 +44,38 @@ public class WorkTimeService extends Service {
         return super.onUnbind(intent);
     }
 
-    // 초기화
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        Thread counter = new Thread(new Counter());
-        counter.start();
-    }
-
-    // 시작
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//
-//        return super.onStartCommand(intent, flags, startId);
-//    }
-
     private boolean isStop;
 
-    // 종료
     @Override
     public void onDestroy() {
         super.onDestroy();
         isStop = true;
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        start = intent.getBooleanExtra("start", false);
+        Thread counter = new Thread(new Counter());
+        if (start) {
+            count = 0;
+            counter.start();
+        };
+
+        return startId;
+    }
+
     private class Counter implements Runnable {
-
-        private int count;
-
         private Handler handler = new Handler();
 
         @Override
         public void run() {
-            for (count = 0; count < 50; count ++) {
-                if (isStop) {
-                    break;
-                }
-
+            while (!isStop) {
+                if (!start) break;
+                count ++;
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), count + "", Toast.LENGTH_SHORT).show();
-                        Log.d("COUNT", count + "");
+//                        Toast.makeText(getApplicationContext(), count + "", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -102,7 +94,5 @@ public class WorkTimeService extends Service {
             });
         }
     }
-
-
 
 }
