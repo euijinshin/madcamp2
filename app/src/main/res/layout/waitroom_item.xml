@@ -10,6 +10,7 @@
         android:layout_margin="20dp">
 
         <ImageView
+            android:id="@+id/iv_room"
             android:layout_width="80dp"
             android:layout_height="80dp" />
 
@@ -21,6 +22,7 @@
             android:layout_marginStart="20dp">
 
             <TextView
+                android:id="@+id/tv_name_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="방 제목"
@@ -28,6 +30,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_details_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="details"
@@ -36,15 +39,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/waitroom_text"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="name"
-        android:textSize="20dp"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:layout_marginStart="15dp" />
 
 </LinearLayout>

@@ -19,6 +19,8 @@ public class LeaveActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
 
     private String host;
+    private String roomDetail;
+    private String imageUrl;
 
 
     @Override
@@ -31,9 +33,14 @@ public class LeaveActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         host = intent.getStringExtra("name");
+        roomDetail = intent.getStringExtra("details");
+        imageUrl = intent.getStringExtra("image");
 
         TextView hostname = findViewById(R.id.hostname);
         hostname.setText(host);
+
+        TextView details = findViewById(R.id.leave_details);
+        details.setText(roomDetail);
 
         fragmentManager = getSupportFragmentManager();
 

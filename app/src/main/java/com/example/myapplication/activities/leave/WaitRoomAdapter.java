@@ -17,12 +17,13 @@ import java.util.ArrayList;
 
 public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHolder> {
 
-    private ArrayList<String> mData = null ;
+    private ArrayList<RoomData> mData = null ;
     private final Context context;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView1 ;
+        TextView name;
+        TextView details;
 
         ViewHolder(View itemView) {
             super(itemView) ;
@@ -34,20 +35,24 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(context, LeaveActivity.class);
 
-                        intent.putExtra("name", mData.get(pos));
+                        intent.putExtra("image", mData.get(pos).getImageUrl());
+                        intent.putExtra("name", mData.get(pos).getRoomName());
+                        intent.putExtra("details", mData.get(pos).getRoomDetails());
 
                         context.startActivity(intent);
+//                        startActivityForResult(intent);
                     }
                 }
             });
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            textView1 = itemView.findViewById(R.id.waitroom_text) ;
+            name = itemView.findViewById(R.id.tv_name_room);
+            details = itemView.findViewById(R.id.tv_details_room);
         }
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    WaitRoomAdapter(Context context, ArrayList<String> list) {
+    WaitRoomAdapter(Context context, ArrayList<RoomData> list) {
         this.context = context;
         this.mData = list ;
     }
@@ -67,8 +72,11 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(WaitRoomAdapter.ViewHolder holder, int position) {
-        String text = mData.get(position) ;
-        holder.textView1.setText(text) ;
+        String image = mData.get(position).getImageUrl();
+        String name = mData.get(position).getRoomName();
+        String details = mData.get(position).getRoomDetails();
+        holder.name.setText(name);
+        holder.details.setText(details);
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

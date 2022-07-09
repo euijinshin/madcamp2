@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".activities.leave.MyRoomActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,45 +44,13 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="퇴근을 기다리고 있어요!"
-            android:layout_gravity="center"/>
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-        <Button
-            android:id="@+id/leave"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:onClick="clickHandler"
-            android:text="퇴근"/>
-        <Button
-            android:id="@+id/invite"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:onClick="clickHandler"
-            android:text="초대"/>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/container"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:layout_gravity="center" />
-
-    <Button
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
+        android:id="@+id/rv_myroom"
         android:layout_gravity="center"
-        android:id="@+id/join"
-        android:text="참가" />
-
-
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
 </LinearLayout>

@@ -26,6 +26,14 @@
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/myroom"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:text="my room" />
+
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
