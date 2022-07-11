@@ -1,20 +1,37 @@
 package com.example.myapplication.activities.leave;
 
-public class RoomData {
+import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+public class RoomData {
+    @SerializedName("img")
     private String imageUrl;
+    @SerializedName("roomName")
     private String roomName;
+    @SerializedName("exitTime")
     private String roomDetails;
 //    private String hostName;
 //    private String hostDetails;
-//    private int hostCode;
+    @SerializedName("user_id")
+    private int hostCode;
 
+    @SerializedName("other_id")
+    private List<Integer> otherId;
 
-    public RoomData(String imageUrl, String roomName, String roomDetails) {
-        this.imageUrl = imageUrl;
+    public RoomData(String imageUrl,String roomName, String roomDetails, int hostCode) {
         this.roomName = roomName;
         this.roomDetails = roomDetails;
-//        this.hostCode = hostCode;
+        this.hostCode = hostCode;
+        this.imageUrl = imageUrl;
+    }
+
+    public List<Integer> getOtherId() {
+        return otherId;
+    }
+
+    public void setOtherId(List<Integer> otherId) {
+        this.otherId = otherId;
     }
 
     public String getImageUrl() {
@@ -41,11 +58,11 @@ public class RoomData {
         this.roomDetails = roomDetails;
     }
 
-//    public int getHostCode() {
-//        return hostCode;
-//    }
-//
-//    public void setHostCode(int hostCode) {
-//        this.hostCode = hostCode;
-//    }
+    public int getHostCode() {
+        return hostCode;
+    }
+
+    public void setHostCode(int hostCode) {
+        this.hostCode = hostCode;
+    }
 }

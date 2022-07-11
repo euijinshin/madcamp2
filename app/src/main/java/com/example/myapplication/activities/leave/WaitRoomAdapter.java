@@ -17,21 +17,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHolder> {
 
-    private ArrayList<RoomData> mData = null ;
+    private List<RoomData> mData = null ;
     private final Context context;
     Dialog dialog;
+
+    public void setItems(List<RoomData> data) {
+        mData = data;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView details;
+        ImageView profile;
 
         ViewHolder(View itemView) {
             super(itemView) ;
@@ -69,6 +77,7 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
 
             name = itemView.findViewById(R.id.tv_name_room);
             details = itemView.findViewById(R.id.tv_details_room);
+            profile = itemView.findViewById(R.id.iv_room);
 
 
 
@@ -96,6 +105,7 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
         String image = mData.get(position).getImageUrl();
         String name = mData.get(position).getRoomName();
         String details = mData.get(position).getRoomDetails();
+        Glide.with(context).load(image).into(holder.profile);
         holder.name.setText(name);
         holder.details.setText(details);
     }

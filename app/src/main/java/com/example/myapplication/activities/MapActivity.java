@@ -4,7 +4,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +16,8 @@ public class MapActivity extends AppCompatActivity {
 
     private GoogleMap mMap;
 
+    int user_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,10 @@ public class MapActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+//        initIntent();
+//
+//        if (user_id < 0) Toast.makeText(this, "userid not passed", Toast.LENGTH_SHORT);
 
         // Initialize fragment
 
@@ -50,6 +58,10 @@ public class MapActivity extends AppCompatActivity {
 //        //mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10));
 //
+//    }
+//    public void initIntent() {
+//        Intent intent = getIntent();
+//        user_id =  intent.getIntExtra("user_id", -1);
 //    }
 
 }

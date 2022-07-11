@@ -5,24 +5,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.activities.RuntimeActivity;
+import com.example.myapplication.activities.leave.CreateRoomActivity;
+import com.example.myapplication.activities.leave.LeaveActivity;
+import com.example.myapplication.activities.leave.MyRoomActivity;
 import com.example.myapplication.activities.leave.WaitRoomActivity;
 import com.example.myapplication.activities.MapActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.main.notifications.NotificationActivity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -34,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
+    private TextView text;
+
 
     private String strNick, strProfileImg, strEmail, strAge, strGender;
     TextView tv_maincounter, tv_nick, tv_email, tv_details;
     ImageView iv_profile;
     Button leave_btn, map_btn, notif_btn, time_btn, logout_btn;
+
+    private int user_id;
 
     private boolean running = false;
     private boolean isrunning = false;
@@ -55,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
         initIntent();
         initView();
 
+        Gson gson = new GsonBuilder().setLenient().create();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.249.18.158:443/")
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
         jsonPlaceHolderApi = retrofit.create(com.example.myapplication.main.JsonPlaceHolderApi.class);
@@ -73,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
         //프로필 이미지 사진 set
         Glide.with(this).load(strProfileImg).into(iv_profile);
 
+        createPosts();
 
+        getPosts();
 
     }
 
@@ -112,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         tv_details = findViewById(R.id.details);
         iv_profile = findViewById(R.id.iv_profile);
         tv_maincounter = findViewById(R.id.tv_mainCounter);
+        text = findViewById(R.id.text);
     }
 
     public void initIntent() {
@@ -121,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
         strProfileImg = intent.getStringExtra("profileImg");
         strEmail = intent.getStringExtra("email");
         strGender = intent.getStringExtra("gender");
-        strAge = intent.getStringExtra("age");
+        strAge = "20";//intent.getStringExtra("age");
+
+        if (strAge == null) strAge = "20";
     }
 
     public void setValues() {
@@ -131,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getApplicationContext(), WaitRoomActivity.class);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -139,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -147,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -155,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), RuntimeActivity.class);
+                intent.putExtra("user_id", user_id);
                 startActivityForResult(intent, 1111);
             }
         });
@@ -173,56 +199,53 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void createPosts() {
+        Post post = new Post(strNick, strProfileImg, strGender);
 
-//    private void createPosts() {
-//        Post post = new Post(strAge, strGender, strNick);
-//
-//        Call<String> call = jsonPlaceHolderApi.createPosts(post);
-//
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                if (!response.isSuccessful()) {
-//                    text.setText("실패 2 서버 에러");
-//                }
-//                if(response.body() == null)
-//                    return;
-//                String success = response.body().toString();
-//                text.setText(success);
-//
-//            }
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                text.setText("실패 3 서버 에러");
-//            }
-//        });
-//    }
+        Call<String> call = jsonPlaceHolderApi.createPosts(post);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                text.setText("success");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                text.setText("실패");
+                Log.d("AAAAAAAAAAAA ", t.getMessage());
+//                Toast.makeText(this, "failed to get info", Toast.LENGTH_SHORT);
+            }
+        });
+    }
 //
 //
-//    private void getPosts() {
-//
-//
-//        Post post = new Post();
-//        jsonPlaceHolderApi.getPosts(strNick).enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                if (response.isSuccessful()) {
-//                    if (response.body() != null) {
-//                        String success = response.body().toString();
-//                        text.setText(success);
-//                    } else {
-//                        text.setText("실패 1 response 내용이 없음");
+    private void getPosts() {
+
+
+        jsonPlaceHolderApi.getPosts(strNick).enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful()) {
+                    List<Post> qqlist = response.body();
+//                    Log.d("BBBBBBBBBBBBB", "BBBBBBBBBBBB");
+//                    for(int i = 0; i < qqlist.size(); i++) {
+//                        Log.d("AAAAAAAAA ", Integer.toString(qqlist.get(i).getId()));
 //                    }
-//                } else {
-//                    text.setText("실패 2 서버 에러");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                text.setText("실패 3 서버 에러");
-//            }
-//        });
-//    }
+                    user_id = qqlist.get(0).getId();
+                    strGender = qqlist.get(0).getGender();
+                    text.setText(Integer.toString(user_id));
+                }
+                else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Log.d("CCCCCCCCCC", t.getMessage());
+            }
+        });
+    }
 }
 

@@ -11,17 +11,33 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.main.JsonPlaceHolderApi;
+import com.example.myapplication.main.Post;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class WaitRoomActivity extends AppCompatActivity {
 
@@ -31,6 +47,15 @@ public class WaitRoomActivity extends AppCompatActivity {
     ArrayList<RoomData> list;
     WaitRoomAdapter adapter;
     RecyclerView recyclerView;
+
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
+
+    List<RoomData> qqlist;
+
+//    List<Integer> otherList;
+
+
+    int user_id;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -45,11 +70,32 @@ public class WaitRoomActivity extends AppCompatActivity {
 
         list = new ArrayList<>();
         initView();
+        initIntent();
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.249.18.158:443/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+
+        jsonPlaceHolderApi = retrofit.create(com.example.myapplication.main.JsonPlaceHolderApi.class);
 
 //        RoomData roomData = new RoomData("url", "Samuel", "9:00");
 //        list.add(roomData);
 
+//        list re = get
+//        for (int i = 0; i < re.size(); i++) {
+//            list.add(re.get(i));
+//        }
+//
+//        adapter.notifyDataSetChanged();
+
         setValue();
+        gets();
+
 
     }
 
@@ -62,7 +108,7 @@ public class WaitRoomActivity extends AppCompatActivity {
             strDetails = intent.getStringExtra("details");
 
             if (intent != null) {
-                RoomData roomData2 = new RoomData(strUrl, strName, strDetails);
+                RoomData roomData2 = new RoomData(strUrl, strName, strDetails, user_id);
                 list.add(roomData2);
             }
             adapter.notifyDataSetChanged();
@@ -86,6 +132,7 @@ public class WaitRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WaitRoomActivity.this, CreateRoomActivity.class);
+                intent.putExtra("user_id", user_id);
                 startActivityForResult(intent, 1234);
             }
         });
@@ -94,6 +141,7 @@ public class WaitRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WaitRoomActivity.this, MyRoomActivity.class);
+                intent = intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });
@@ -106,4 +154,46 @@ public class WaitRoomActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void initIntent() {
+        Intent intent = getIntent();
+        user_id =  intent.getIntExtra("user_id", 0);
+    }
+
+    private void gets() {
+        jsonPlaceHolderApi.gets(user_id).enqueue(new Callback<List<RoomData>>() {
+            @Override
+            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+                if(response.isSuccessful()) {
+                   Log.d("ddddd", "ddd");
+                   qqlist = response.body();
+
+
+
+
+
+                   adapter.setItems(response.body());
+                   //other_id 를 넣는 변수
+
+
+//                    user_id = qqlist.get(0).getId();
+//                    Log.d("imggggggg", qqlist.get(0));
+//                    Log.d("nameeeeeee", qqlist.get(1));
+//                    Log.d("isString", qqlist.get(0).getClass().getName());
+
+                }
+                else {
+                    Log.d("sss", "sss");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RoomData>> call, Throwable t) {
+                Log.d("CCCCCCCCCC", t.getMessage());
+            }
+        });
+    }
+
+    //그 변수에다가 참가자의 id를 넣고 이걸 post 보내자
+    //보낼때 서버에서 컬럼 데이터 변경을 해서 넣자
 }

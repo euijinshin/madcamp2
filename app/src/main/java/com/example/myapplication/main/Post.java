@@ -5,35 +5,29 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class Post {
+    @SerializedName("ID")
+    private  int id;
     @SerializedName("NAME")
     private String name;
-    @SerializedName("AGE")
-    private String age;
+    @SerializedName("IMG")
+    private String imgUrl;
     @SerializedName("GENDER")
     private String gender;
 
-    public Post(){}
 
-    public Post(String age, String gender, String name) {
-        this.age = age;
+    public Post(String name, String imgUrl, String gender) {
+//        this.id = id;
+        this.imgUrl = imgUrl;
         this.gender = gender;
         this.name = name;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String score) {
-        this.gender = score;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getName() {
@@ -44,12 +38,28 @@ public class Post {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "age='" + age + '\'' +
-                ", gender='" + gender + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+//    @Override
+//    public String toString() {
+//        return "Post{" +
+//                "age='" + imgUrl + '\'' +
+//                ", gender='" + gender + '\'' +
+//                ", name='" + name + '\'' +
+//                '}';
+//    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
