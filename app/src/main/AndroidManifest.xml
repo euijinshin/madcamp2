@@ -18,15 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <activity
+            android:name=".activities.RuntimeActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.leave.MyRoomActivity"
             android:exported="false" />
         <activity
             android:name=".activities.leave.CreateRoomActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TimeRunActivity"
             android:exported="false" />
         <activity
             android:name=".activities.leave.WaitRoomActivity"
@@ -35,17 +36,16 @@
             android:name=".main.notifications.NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".activities.login.LogInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- <activity android:name=".activities.WorktimeActivity" /> -->
         <activity android:name=".activities.MapActivity" />
         <activity android:name=".activities.leave.LeaveActivity" />
-        <activity android:name=".activities.login.LogInActivity" />
+        <activity android:name=".main.MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -54,9 +54,6 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="a9a94be703e07c460ddd95552e048ab1" />
 
-        <service
-            android:name=".WorkTimeService"
-            android:enabled="true" />
     </application>
 
 </manifest>

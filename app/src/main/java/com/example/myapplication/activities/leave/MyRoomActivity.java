@@ -32,10 +32,10 @@ public class MyRoomActivity extends AppCompatActivity {
         adapter = new MyRoomAdapter(MyRoomActivity.this, list);
         recyclerView.setAdapter(adapter);
 
-        JoinMember joinMember1 = new JoinMember("Samuel", "5");
-        JoinMember joinMember2 = new JoinMember("John", "4");
-        JoinMember joinMember3 = new JoinMember("Kim", "1");
-        JoinMember joinMember4 = new JoinMember("Lucy", "2");
+        JoinMember joinMember1 = new JoinMember("Samuel", "5", "imgUrl");
+        JoinMember joinMember2 = new JoinMember("John", "4", "imgUrl");
+        JoinMember joinMember3 = new JoinMember("Kim", "1", "imgUrl");
+        JoinMember joinMember4 = new JoinMember("Lucy", "2", "imgUrl");
         list.add(joinMember1);
         list.add(joinMember2);
         list.add(joinMember3);

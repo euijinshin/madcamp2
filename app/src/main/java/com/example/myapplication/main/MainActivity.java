@@ -2,36 +2,30 @@ package com.example.myapplication.main;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.IMyCounterService;
-import com.example.myapplication.TimeRunActivity;
-import com.example.myapplication.WorkTimeService;
+import com.example.myapplication.activities.RuntimeActivity;
 import com.example.myapplication.activities.leave.WaitRoomActivity;
-import com.example.myapplication.activities.login.LogInActivity;
 import com.example.myapplication.activities.MapActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.main.notifications.NotificationActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,28 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private String strNick, strProfileImg, strEmail, strAge, strGender;
-    TextView tv_maincounter;
-    private int start_time;
-    private int time;
-    private NotificationHelper mNotificationhelper;
+    TextView tv_maincounter, tv_nick, tv_email, tv_details;
+    ImageView iv_profile;
+    Button leave_btn, map_btn, notif_btn, time_btn, logout_btn;
 
     private boolean running = false;
     private boolean isrunning = false;
     private boolean unbind = false;
-
-    private IMyCounterService binder;
-
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            binder = IMyCounterService.Stub.asInterface(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,32 +52,80 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        Button leave_btn = (Button) findViewById(R.id.leave_btn);
-        Button map_btn = findViewById(R.id.map_btn);
-        Button work_btn = findViewById(R.id.work_btn);
-        Button login_btn = findViewById(R.id.login_btn);
-        Button notif_btn = findViewById(R.id.notif_btn);
-
-        Button send_notif = findViewById(R.id.send_notif);
+        initIntent();
+        initView();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.10.18.158:443/")
+                .baseUrl("http://192.249.18.158:443/")
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = retrofit.create(com.example.myapplication.main.JsonPlaceHolderApi.class);
+
+        setValues();
+
+        // 닉네임, email, details set
+        tv_nick.setText(strNick);
+        tv_email.setText(strEmail);
+        tv_details.setText(strAge + ", " + strGender);
+
+        //프로필 이미지 사진 set
+        Glide.with(this).load(strProfileImg).into(iv_profile);
 
 
 
-        send_notif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = strNick;
-                String message = strEmail;
-                sendOnChannel1(title, message);
+    }
+
+    // StopWatch function
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            Boolean isStop = intent.getBooleanExtra("isStopSW", false);
+            long time = intent.getLongExtra("today", 0);
+
+            if (isStop) {
+                Date pass = new Date(time);
+                SimpleDateFormat passFormat = new SimpleDateFormat("hh:mm:ss");
+                String getTime = passFormat.format(pass);
+
+                TextView textView = findViewById(R.id.tv_mainCounter);
+                textView.setText(getTime);
+
+                LinearLayout linearLayout = findViewById(R.id.linear_worktime);
+                linearLayout.setVisibility(View.VISIBLE);
             }
-        });
+        }
+    }
 
+    public void initView() {
+        // Buttons
+        leave_btn = (Button) findViewById(R.id.leave_btn);
+        map_btn = findViewById(R.id.map_btn);
+        notif_btn = findViewById(R.id.notif_btn);
+        time_btn = findViewById(R.id.work_btn);
+        logout_btn = findViewById(R.id.logout_btn);
+        //profile set
+        tv_nick = findViewById(R.id.tv_nickname);
+        tv_email = findViewById(R.id.tv_email);
+        tv_details = findViewById(R.id.details);
+        iv_profile = findViewById(R.id.iv_profile);
+        tv_maincounter = findViewById(R.id.tv_mainCounter);
+    }
+
+    public void initIntent() {
+        Intent intent = getIntent();
+        // Profile get from kakao
+        strNick = intent.getStringExtra("name");
+        strProfileImg = intent.getStringExtra("profileImg");
+        strEmail = intent.getStringExtra("email");
+        strGender = intent.getStringExtra("gender");
+        strAge = intent.getStringExtra("age");
+    }
+
+    public void setValues() {
+        // set button OnClick
         leave_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,23 +143,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        work_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TimeRunActivity.class);
-                if (time != 0) intent.putExtra("running", true);
-                startActivity(intent);
-            }
-        });
-
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(intent);
-            }
-        });
-
         notif_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,41 +151,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        strNick = intent.getStringExtra("name");
-        strProfileImg = intent.getStringExtra("profileImg");
-        strEmail = intent.getStringExtra("email");
-        strGender = intent.getStringExtra("gender");
-        strAge = intent.getStringExtra("age");
+        time_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RuntimeActivity.class);
+                startActivityForResult(intent, 1111);
+            }
+        });
 
-        start_time = intent.getIntExtra("time", 0);
-        running = intent.getBooleanExtra("running", false);
-        unbind = intent.getBooleanExtra("unbind", false);
-
-
-
-
-        Intent service = new Intent(MainActivity.this, WorkTimeService.class);
-        bindService(service, connection, BIND_AUTO_CREATE);
-        if (unbind) unbindService(connection);
-
-        TextView tv_nick = findViewById(R.id.tv_nickname);
-        TextView tv_email = findViewById(R.id.tv_email);
-        TextView details = findViewById(R.id.details);
-        ImageView iv_profile = findViewById(R.id.iv_profile);
-        tv_maincounter = findViewById(R.id.tv_mainCounter);
-
-        // 닉네임 set
-        tv_nick.setText(strNick);
-        // email set
-        tv_email.setText(strEmail);
-        // details set
-        details.setText(strAge + ", " + strGender);
-
-        //프로필 이미지 사진 set
-        Glide.with(this).load(strProfileImg).into(iv_profile);
-
-        findViewById(R.id.logout_btn).setOnClickListener(new View.OnClickListener() {
+        logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
@@ -187,103 +171,58 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
-
-        final Runnable runnable = new Runnable() {
-            @Override
-            public synchronized void run() {
-                try {
-                    time = binder.getCount();
-                    String time_pass = Integer.toString(time / 3600) + ":" + Integer.toString(time / 60 % 60) + ":" + Integer.toString(time % 60);
-                    tv_maincounter.setText(time_pass);
-
-                    Intent frommain = new Intent(MainActivity.this, TimeRunActivity.class);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        class NewRunnable implements Runnable {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    runOnUiThread(runnable);
-                }
-            }
-        }
-
-        NewRunnable nr = new NewRunnable();
-        Thread t = new Thread(nr);
-        t.start();
-
-
-    }
-
-    public void sendOnChannel1(String title, String message) {
-        NotificationCompat.Builder nb = mNotificationhelper.getChannel1Notification(title, message);
-        mNotificationhelper.getManager().notify(1, nb.build());
-    }
-
-    private void createPost() {
-        Post post = new Post(strGender, strAge, strNick);
-
-        Call<Post> call = jsonPlaceHolderApi.createPost(post);
-
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                Post postResponse = (Post) response.body();
-
-                String content = "";
-                content += "Name" + postResponse.getName() + "\n";
-                content += "Age: " + postResponse.getAge() + "\n";
-                content += "Score: " + postResponse.getScore() + "\n";
-
-                textViewResult.setText(content);
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                textViewResult.setText(t.getMessage());
-            }
-        });
     }
 
 
-    private void getPosts() {
-
-
-        Post post = new Post();
-
-        Call<Post> call = jsonPlaceHolderApi.getPosts(strNick);
-
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-
-                TextView textView = (TextView) findViewById(R.id.details);
-
-                String content = "";
-                content += "Name" + post.getName() + "\n";
-                content += "Age: " + post.getAge() + "\n";
-                content += "Gender: " + post.getScore() + "\n";
-
-                textViewResult.setText(content);
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                textViewResult.setText(t.getMessage());
-            }
-        });
-
-    }
+//    private void createPosts() {
+//        Post post = new Post(strAge, strGender, strNick);
+//
+//        Call<String> call = jsonPlaceHolderApi.createPosts(post);
+//
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                if (!response.isSuccessful()) {
+//                    text.setText("실패 2 서버 에러");
+//                }
+//                if(response.body() == null)
+//                    return;
+//                String success = response.body().toString();
+//                text.setText(success);
+//
+//            }
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                text.setText("실패 3 서버 에러");
+//            }
+//        });
+//    }
+//
+//
+//    private void getPosts() {
+//
+//
+//        Post post = new Post();
+//        jsonPlaceHolderApi.getPosts(strNick).enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                if (response.isSuccessful()) {
+//                    if (response.body() != null) {
+//                        String success = response.body().toString();
+//                        text.setText(success);
+//                    } else {
+//                        text.setText("실패 1 response 내용이 없음");
+//                    }
+//                } else {
+//                    text.setText("실패 2 서버 에러");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                text.setText("실패 3 서버 에러");
+//            }
+//        });
+//    }
 }
 

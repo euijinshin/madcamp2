@@ -1,16 +1,24 @@
 package com.example.myapplication.activities.leave;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
+import com.example.myapplication.main.MainActivity;
 
 import java.util.ArrayList;
 
@@ -19,8 +27,8 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
 
     private ArrayList<RoomData> mData = null ;
     private final Context context;
+    Dialog dialog;
 
-    // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView details;
@@ -40,24 +48,38 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
                         intent.putExtra("details", mData.get(pos).getRoomDetails());
 
                         context.startActivity(intent);
-//                        startActivityForResult(intent);
                     }
                 }
             });
 
-            // 뷰 객체에 대한 참조. (hold strong reference)
+            dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_details);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    int pos = getAdapterPosition();
+                    showDialog(pos);
+
+                    return true;
+                }
+            });
+
             name = itemView.findViewById(R.id.tv_name_room);
             details = itemView.findViewById(R.id.tv_details_room);
+
+
+
         }
     }
 
-    // 생성자에서 데이터 리스트 객체를 전달받음.
     WaitRoomAdapter(Context context, ArrayList<RoomData> list) {
         this.context = context;
         this.mData = list ;
     }
 
-    // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
     public WaitRoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext() ;
@@ -69,7 +91,6 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
         return vh ;
     }
 
-    // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(WaitRoomAdapter.ViewHolder holder, int position) {
         String image = mData.get(position).getImageUrl();
@@ -79,9 +100,33 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
         holder.details.setText(details);
     }
 
-    // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
         return mData.size() ;
     }
+
+    public void showDialog(int pos) {
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        String image = mData.get(pos).getImageUrl();
+        String name = mData.get(pos).getRoomName();
+        String details = mData.get(pos).getRoomDetails();
+
+        ImageView iv_image = dialog.findViewById(R.id.dialog_img);
+        TextView tv_name = dialog.findViewById(R.id.dialog_name);
+        TextView tv_details = dialog.findViewById(R.id.dialog_details);
+
+        tv_name.setText(name);
+        tv_details.setText(details);
+
+        Button confirm_btn = dialog.findViewById(R.id.dialog_confirm);
+        confirm_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
 }

@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class Post {
-
-    private String age;
-    private String score;
-
-    @SerializedName("body")
+    @SerializedName("NAME")
     private String name;
+    @SerializedName("AGE")
+    private String age;
+    @SerializedName("GENDER")
+    private String gender;
 
     public Post(){}
 
-    public Post(String age, String score, String name) {
+    public Post(String age, String gender, String name) {
         this.age = age;
-        this.score = score;
+        this.gender = gender;
         this.name = name;
     }
 
@@ -28,12 +28,12 @@ public class Post {
         this.age = age;
     }
 
-    public String getScore() {
-        return score;
+    public String getGender() {
+        return gender;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setGender(String score) {
+        this.gender = score;
     }
 
     public String getName() {
@@ -42,5 +42,14 @@ public class Post {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "age='" + age + '\'' +
+                ", gender='" + gender + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

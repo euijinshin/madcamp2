@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
 
@@ -21,6 +22,8 @@ public class InviteFragment extends Fragment {
 
     public static Fragment fragment;
     private RecyclerView recyclerView;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public InviteFragment() { }
 
@@ -35,11 +38,14 @@ public class InviteFragment extends Fragment {
 
         inviteAdapter.notifyDataSetChanged();
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_launcher_foreground)
-//                .setContentTitle("alarm")
-//                .setContentText("newly added")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_invite);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                inviteAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
         return view;

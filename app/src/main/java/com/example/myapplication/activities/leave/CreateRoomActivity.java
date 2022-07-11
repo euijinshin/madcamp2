@@ -21,15 +21,9 @@ import java.io.IOException;
 public class CreateRoomActivity extends AppCompatActivity {
 
     ImageView create_profile;
-    TextView create_name;
-    TextView create_details;
-
-    TextView roomName;
-    TextView exitTime;
-    TextView fullMember;
-
-    TextView createConfirm;
-    TextView createCancel;
+    TextView create_name, create_details; // user name and details
+    TextView roomName, exitTime, fullMember; // room details
+    TextView createConfirm, createCancel; // buttons
 
     public static RoomData roomData;
 
@@ -41,16 +35,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        create_profile = findViewById(R.id.create_profile);
-        create_name = findViewById(R.id.create_name);
-        create_details = findViewById(R.id.create_details);
-
-        roomName = findViewById(R.id.roomName);
-        exitTime = findViewById(R.id.exitTime);
-        fullMember = findViewById(R.id.fullMember);
-
-        createConfirm = findViewById(R.id.createConfirm);
-        createCancel = findViewById(R.id.createCancel);
+        initView();
 
 //        create_profile.setImageResource();
 //        create_name.setText();
@@ -81,5 +66,18 @@ public class CreateRoomActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void initView() {
+        create_profile = findViewById(R.id.create_profile);
+        create_name = findViewById(R.id.create_name);
+        create_details = findViewById(R.id.create_details);
+
+        roomName = findViewById(R.id.roomName);
+        exitTime = findViewById(R.id.exitTime);
+        fullMember = findViewById(R.id.fullMember);
+
+        createConfirm = findViewById(R.id.createConfirm);
+        createCancel = findViewById(R.id.createCancel);
     }
 }
