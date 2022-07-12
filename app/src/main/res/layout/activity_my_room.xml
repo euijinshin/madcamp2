@@ -20,6 +20,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/myroomImg"
                 android:layout_width="80dp"
                 android:layout_height="80dp" />
 
@@ -33,10 +34,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="이름"
-                    android:id="@+id/hostname" />
+                    android:id="@+id/myroomName" />
 
                 <TextView
-                    android:id="@+id/leave_details"
+                    android:id="@+id/myroomDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="details" />

@@ -27,7 +27,6 @@ public interface JsonPlaceHolderApi {
     @GET("get/room")
     Call<List<RoomData>> gets(@Query("id") int id);
 
-
     @GET("get/myroom")
     Call<List<RoomData>> getMyroom(@Query("id") int id);
 

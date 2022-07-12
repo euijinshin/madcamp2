@@ -53,7 +53,7 @@ public class LeaveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leave);
 
 //        posts();
-          gets();
+//          gets();
 
 
         Gson gson = new GsonBuilder().setLenient().create();
@@ -108,7 +108,6 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
                 if(response.isSuccessful()) {
-                    Log.d("ddddd", "ddd");
                     qqlist = response.body();
 
                     host = qqlist.get(0).getRoomName();
@@ -116,8 +115,8 @@ public class LeaveActivity extends AppCompatActivity {
                     imageUrl = qqlist.get(0).getImageUrl();
 
 
-                    TextView hostname = findViewById(R.id.hostname);
-                    hostname.setText(host);
+                    TextView roomname = findViewById(R.id.leave_host);
+                    roomname.setText(host);
 
                     TextView details = findViewById(R.id.leave_details);
                     details.setText(roomDetail);
@@ -125,7 +124,6 @@ public class LeaveActivity extends AppCompatActivity {
                     ImageView img = findViewById(R.id.leave_img);
 
                     Glide.with(LeaveActivity.this).load(imageUrl).into(img);
-
 
                 }
                 else {

@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.main.JsonPlaceHolderApi;
 import com.google.gson.Gson;
@@ -30,6 +33,8 @@ public class MyRoomActivity extends AppCompatActivity {
     MyRoomAdapter adapter;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     int user_id;
+    List<RoomData> qqlist;
+    String roomName, imgUrl, roomDetails;
 
 
 
@@ -42,9 +47,6 @@ public class MyRoomActivity extends AppCompatActivity {
 
         Intent secondIntent = getIntent();
         user_id = secondIntent.getIntExtra("user_id", 0);
-
-
-
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -59,6 +61,8 @@ public class MyRoomActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        gets();
 
         list = new ArrayList<>();
 
@@ -84,7 +88,27 @@ public class MyRoomActivity extends AppCompatActivity {
         jsonPlaceHolderApi.gets(user_id).enqueue(new Callback<List<RoomData>>() {
             @Override
             public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+                if (response.isSuccessful()) {
 
+
+                    Log.d("ddddd", "ddd");
+                    qqlist = response.body();
+
+                    roomName = qqlist.get(0).getRoomName();
+                    roomDetails = qqlist.get(0).getRoomDetails();
+                    imgUrl = qqlist.get(0).getImageUrl();
+
+
+                    TextView hostname = findViewById(R.id.myroomName);
+                    hostname.setText(roomName);
+
+                    TextView details = findViewById(R.id.myroomDetails);
+                    details.setText(roomDetails);
+
+                    ImageView img = findViewById(R.id.myroomImg);
+
+                    Glide.with(MyRoomActivity.this).load(imgUrl).into(img);
+                }
             }
             @Override
             public void onFailure(Call<List<RoomData>> call, Throwable t) {
@@ -92,4 +116,18 @@ public class MyRoomActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void getUser() {
+//        jsonPlaceHolderApi.getId(user_id).enqueue(new Callback<List<String>>() {
+//            @Override
+//            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<String>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }
