@@ -155,7 +155,8 @@ public class WaitRoomActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.notifyDataSetChanged();
+//                if (!qqlist.isEmpty()) list = (ArrayList<RoomData>) qqlist;
+                gets();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -173,19 +174,8 @@ public class WaitRoomActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                    Log.d("ddddd", "ddd");
                    qqlist = response.body();
-
-
-
-
-
                    adapter.setItems(response.body());
                    //other_id 를 넣는 변수
-
-
-//                    user_id = qqlist.get(0).getId();
-//                    Log.d("imggggggg", qqlist.get(0));
-//                    Log.d("nameeeeeee", qqlist.get(1));
-//                    Log.d("isString", qqlist.get(0).getClass().getName());
 
                 }
                 else {

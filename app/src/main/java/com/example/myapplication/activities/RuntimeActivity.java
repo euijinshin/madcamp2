@@ -30,9 +30,11 @@ public class RuntimeActivity extends AppCompatActivity {
     Boolean isStop = false;
     Button Start, Stop;
 
+    String strTime;
+
     long time = 0;
 
-    SimpleDateFormat passFormat = new SimpleDateFormat("hh:mm:ss");
+    SimpleDateFormat passFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class RuntimeActivity extends AppCompatActivity {
 
                 dateStop = new Date(stop);
 
-                time = dateStop.getTime() - dateStart.getTime();
+                time = dateStop.getTime() - dateStart.getTime() - 32399999;
 
                 Date pass = new Date(time);
                 String getTime = passFormat.format(pass);
@@ -96,12 +98,14 @@ public class RuntimeActivity extends AppCompatActivity {
                 isStop = true;
 
                 Stop.setVisibility(View.GONE);
+                String workTime = passFormat.format(dateStop);
 
-                endTimeSet.setText(passFormat.format(dateStop));
+                endTimeSet.setText(workTime);
+//                endTimeSet.setText(strTime);
 
                 Intent intent = new Intent();
                 intent.putExtra("isStopSW", isStop);
-                intent.putExtra("today", time);
+                intent.putExtra("today", getTime);
 
                 setResult(RESULT_OK, intent);
 
@@ -115,10 +119,10 @@ public class RuntimeActivity extends AppCompatActivity {
                     long now = System.currentTimeMillis();
                     Date date = new Date(now);
 
-                    long pass = date.getTime() - dateStart.getTime();
+                    long pass = date.getTime() - dateStart.getTime() - 32399999;
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    String strTime = sdf.format(pass);
+//                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    strTime = passFormat.format(pass);
 
                     TextView textView = findViewById(R.id.tv_timeCounter);
                     textView.setText(strTime);
@@ -131,10 +135,10 @@ public class RuntimeActivity extends AppCompatActivity {
 
                     Date startDate = new Date(savedStart);
 
-                    long pass = date.getTime() - startDate.getTime();
+                    long pass = date.getTime() - startDate.getTime() - 32399999;
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    String strTime = sdf.format(pass);
+//                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    strTime = passFormat.format(pass);
 
                     TextView textView = findViewById(R.id.tv_timeCounter);
                     textView.setText(strTime);

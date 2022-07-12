@@ -102,15 +102,15 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
             Boolean isStop = intent.getBooleanExtra("isStopSW", false);
-            long time = intent.getLongExtra("today", 0);
+            String workTime = intent.getStringExtra("today");
 
             if (isStop) {
-                Date pass = new Date(time);
-                SimpleDateFormat passFormat = new SimpleDateFormat("hh:mm:ss");
-                String getTime = passFormat.format(pass);
+//                Date pass = new Date(time);
+//                SimpleDateFormat passFormat = new SimpleDateFormat("hh:mm:ss");
+//                String getTime = passFormat.format(pass);
 
                 TextView textView = findViewById(R.id.tv_mainCounter);
-                textView.setText(getTime);
+                textView.setText(workTime);
 
                 LinearLayout linearLayout = findViewById(R.id.linear_worktime);
                 linearLayout.setVisibility(View.VISIBLE);
