@@ -47,13 +47,13 @@
             android:textSize="25sp"
             android:id="@+id/dialog_details" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Score"
-            android:textSize="30dp"
-            android:id="@+id/dialog_score" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:text="Score"-->
+<!--            android:textSize="30dp"-->
+<!--            android:id="@+id/dialog_score" />-->
 
     </LinearLayout>
 

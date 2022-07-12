@@ -74,7 +74,8 @@ public class LeaveActivity extends AppCompatActivity {
         join_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getOtherId();
+                postOtherId();
+                join_btn.setVisibility(View.GONE);
             }
         });
 
@@ -131,21 +132,6 @@ public class LeaveActivity extends AppCompatActivity {
 //        });
 //    }
 
-    //room 데이터 베이스에 other_id 값 삽입
-    private  void getOtherId(){
-        jsonPlaceHolderApi.getOtherId(user_id, roomId).enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-
-        });
-    }
 
     private void getMyroom() {
         jsonPlaceHolderApi.getMyroom(roomId).enqueue(new Callback<List<RoomData>>() {

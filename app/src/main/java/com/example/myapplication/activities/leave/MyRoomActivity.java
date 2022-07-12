@@ -35,7 +35,7 @@ public class MyRoomActivity extends AppCompatActivity {
     ArrayList<JoinMember> list;
     MyRoomAdapter adapter;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
-    Integer user_id, other_id;
+    Integer user_id, other_id, room_id;
     List<RoomData> qqlist;
     String roomName, imgUrl, roomDetails, other_gender, other_name;
 
@@ -65,77 +65,79 @@ public class MyRoomActivity extends AppCompatActivity {
 
         LinearLayout yesno = findViewById(R.id.yesno);
 
-        TextView accept = findViewById(R.id.accept);
         TextView reject = findViewById(R.id.reject);
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                yesno.setVisibility(View.GONE);
-            }
-        });
+
         reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                yesno.setVisibility(View.GONE);
+                // set에서 user_id를 취소할 수 있게
+                postOtherId();
+                finish();
             }
         });
 
-        getRoom();
-    }
-
-
-    private void getRoom() {
-        jsonPlaceHolderApi.getRoom(user_id).enqueue(new Callback<List<RoomData>>() {
-            @Override
-            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
-                qqlist = response.body();
-
-                roomName = qqlist.get(0).getRoomName();
-                roomDetails = qqlist.get(0).getRoomDetails();
-                if (qqlist.get(0).getOtherId() == null) other_id = -1;
-                else other_id = qqlist.get(0).getOtherId();
-                other_gender = qqlist.get(0).getHostGender();
-                other_name = qqlist.get(0).getHostName();
-                imgUrl = qqlist.get(0).getHostImg();
-
-
-//                TextView hostname = findViewById(R.id.leave_host);
-//                hostname.setText(host);
-
-                TextView details = findViewById(R.id.myroomDetails);
-                details.setText(roomDetails);
-
-                TextView roomname = findViewById(R.id.myroomName);
-                roomname.setText(roomName);
-
-                ImageView imageView = findViewById(R.id.people_img);
-                Glide.with(MyRoomActivity.this).load(imgUrl).into(imageView);
-
-                TextView joinname = findViewById(R.id.people_name);
-                joinname.setText(other_name);
-
-                TextView joingender = findViewById(R.id.people_detail);
-                joingender.setText(other_gender);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<RoomData>> call, Throwable t) {
-                Log.d("FF", t.getMessage());
-            }
-        });
+        getOtherId();
     }
 
     private void getOtherId() {
         jsonPlaceHolderApi.getOtherId(user_id).enqueue(new Callback<List<RoomData>>() {
             @Override
             public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+                qqlist = response.body();
+
+                if (qqlist.size() == 0) {
+//                    other_id = -1;
+
+                }
+                else{
+                    roomName = qqlist.get(0).getRoomName();
+                    room_id = qqlist.get(0).getRoomId();
+                    roomDetails = qqlist.get(0).getRoomDetails();
+                    other_id = qqlist.get(0).getOtherId();
+                    other_gender = qqlist.get(0).getHostGender();
+                    other_name = qqlist.get(0).getHostName();
+                    imgUrl = qqlist.get(0).getHostImg();
+
+                    TextView details = findViewById(R.id.myroomDetails);
+                    details.setText(roomDetails);
+
+                    TextView roomname = findViewById(R.id.myroomName);
+                    roomname.setText(roomName);
+
+                    ImageView imageView = findViewById(R.id.people_img);
+                    Glide.with(MyRoomActivity.this).load(imgUrl).into(imageView);
+
+                    TextView joinname = findViewById(R.id.people_name);
+                    joinname.setText(other_name);
+
+                    TextView joingender = findViewById(R.id.people_detail);
+                    joingender.setText(other_gender);
+
+                    TextView reject = findViewById(R.id.reject);
+                    reject.setVisibility(View.VISIBLE);
+                }
 
             }
             @Override
             public void onFailure(Call<List<RoomData>> call, Throwable t) {
                 Log.d("CCCCCCCCCC", t.getMessage());
             }
+        });
+    }
+
+    private  void postOtherId(){
+
+        jsonPlaceHolderApi.postOtherId(null, room_id).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+
         });
     }
 }

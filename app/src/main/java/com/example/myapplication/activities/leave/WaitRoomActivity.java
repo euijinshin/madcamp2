@@ -87,16 +87,6 @@ public class WaitRoomActivity extends AppCompatActivity {
 
         jsonPlaceHolderApi = retrofit.create(com.example.myapplication.main.JsonPlaceHolderApi.class);
 
-//        RoomData roomData = new RoomData("url", "Samuel", "9:00");
-//        list.add(roomData);
-
-//        list re = get
-//        for (int i = 0; i < re.size(); i++) {
-//            list.add(re.get(i));
-//        }
-//
-//        adapter.notifyDataSetChanged();
-
         setValue();
         gets();
 

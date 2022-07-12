@@ -23,9 +23,9 @@ public interface JsonPlaceHolderApi {
 
     @GET("get/room")
     Call<List<RoomData>> gets(@Query("id") int id);
-
-    @GET("get/other_id")
-    Call<Integer> getOtherId(@Query("user_id") int id, @Query("id") int room_id);
+//
+//    @GET("get/other_id")
+//    Call<Integer> getOtherId(@Query("user_id") int id);
 
     @GET("get/myroom")
     Call<List<RoomData>> getMyroom(@Query("id") int id);
@@ -37,7 +37,7 @@ public interface JsonPlaceHolderApi {
 
     @FormUrlEncoded
     @POST("post/other_id")
-    Call<String> postOtherId(@Field("user_id") int id, @Field("id") int room_id);
+    Call<String> postOtherId(@Field("user_id") Integer id, @Field("id") Integer room_id);
 
     @GET("get/other_id")
     Call<List<RoomData>> getOtherId(@Query("user_id") int id);
