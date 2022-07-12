@@ -82,7 +82,7 @@ public class CreateRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 posts();
-                String details = exitTime.getText().toString() + " " + fullMember.getText().toString();
+                String details = exitTime.getText().toString();
 //                roomData = new RoomData("url", roomName.getText().toString(), details);
                 Intent intent = new Intent();
 //                intent.putExtra("roomData", roomData);
@@ -113,7 +113,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     public void initView() {
         create_profile = findViewById(R.id.create_profile);
         create_name = findViewById(R.id.create_name);
-        create_details = findViewById(R.id.create_details);
+//        create_details = findViewById(R.id.create_details);
 
         roomName = findViewById(R.id.roomName);
         exitTime = findViewById(R.id.exitTime);

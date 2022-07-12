@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.MapActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/title"
@@ -23,13 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="10dp"
-        app:cardElevation="0dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        app:cardElevation="10dp">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/round_bg2"
-            android:layout_margin="20dp"
             android:id="@+id/frame_layout" />
 
     </androidx.cardview.widget.CardView>

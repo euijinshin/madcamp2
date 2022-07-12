@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,22 +30,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class LeaveActivity extends AppCompatActivity {
-    private FragmentManager fragmentManager;
-    private GotFragment fragmentGot;
-    private InviteFragment fragmentInvite;
-    private FragmentTransaction transaction;
 
-    private String host;
-    private String roomDetail;
-    private String imageUrl;
+    private String host, roomName, roomDetail, imageUrl;
 
     int roomId, user_id;
+    Integer other_id;
 
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
-
     List<RoomData> qqlist;
-    ArrayList<Integer> otherID;
 
 
     @Override
@@ -71,72 +65,49 @@ public class LeaveActivity extends AppCompatActivity {
         actionBar.hide();
 
         Intent intent = getIntent();
-//        host = intent.getStringExtra("name");
-//        roomDetail = intent.getStringExtra("details");
-//        imageUrl = intent.getStringExtra("image");
         roomId = intent.getIntExtra("roomId", 0);
         user_id = intent.getIntExtra("user_id", 0);
 
-        gets();
+        getMyroom();
 
-        fragmentManager = getSupportFragmentManager();
-
-        fragmentGot = new GotFragment();
-        fragmentInvite = new InviteFragment();
-
-        transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container, fragmentGot).commitAllowingStateLoss();
-    }
-
-    public void clickHandler(View view)
-    {
-        transaction = fragmentManager.beginTransaction();
-
-        switch(view.getId())
-        {
-            case R.id.leave:
-                transaction.replace(R.id.container, fragmentGot).commitAllowingStateLoss();
-                break;
-            case R.id.invite:
-                transaction.replace(R.id.container, fragmentInvite).commitAllowingStateLoss();
-                break;
-        }
-    }
-
-    private void gets() {
-        jsonPlaceHolderApi.getMyroom(roomId).enqueue(new Callback<List<RoomData>>() {
+        TextView join_btn = findViewById(R.id.leave_join);
+        join_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
-                if(response.isSuccessful()) {
-                    qqlist = response.body();
-
-                    host = qqlist.get(0).getRoomName();
-                    roomDetail = qqlist.get(0).getRoomDetails();
-                    imageUrl = qqlist.get(0).getImageUrl();
-
-
-                    TextView roomname = findViewById(R.id.leave_host);
-                    roomname.setText(host);
-
-                    TextView details = findViewById(R.id.leave_details);
-                    details.setText(roomDetail);
-
-                    ImageView img = findViewById(R.id.leave_img);
-
-                    Glide.with(LeaveActivity.this).load(imageUrl).into(img);
-
-                }
-                else {
-                    Log.d("sss", "sss");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<RoomData>> call, Throwable t) {
-                Log.d("CCCCCCCCCC", t.getMessage());
+            public void onClick(View view) {
+                getOtherId();
             }
         });
+
     }
+
+//    private void gets() {
+//        jsonPlaceHolderApi.gets(roomId).enqueue(new Callback<List<RoomData>>() {
+//            @Override
+//            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+//                if(response.isSuccessful()) {
+//                    qqlist = response.body();
+//
+
+//
+//
+
+//
+//                    TextView details = findViewById(R.id.leave_details);
+//                    details.setText(roomDetail);
+//
+//
+//                }
+//                else {
+//                    Log.d("sss", "sss");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<RoomData>> call, Throwable t) {
+//                Log.d("CCCCCCCCCC", t.getMessage());
+//            }
+//        });
+//    }
 
 //    private void posts() {
 //
@@ -159,4 +130,81 @@ public class LeaveActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    //room 데이터 베이스에 other_id 값 삽입
+    private  void getOtherId(){
+        jsonPlaceHolderApi.getOtherId(user_id, roomId).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+
+        });
+    }
+
+    private void getMyroom() {
+        jsonPlaceHolderApi.getMyroom(roomId).enqueue(new Callback<List<RoomData>>() {
+            @Override
+            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("ddddd", "ddd");
+                    qqlist = response.body();
+
+                    roomName = qqlist.get(0).getRoomName();
+                    roomDetail = qqlist.get(0).getRoomDetails();
+                    imageUrl = qqlist.get(0).getImageUrl();
+                    host = qqlist.get(0).getHostName();
+                    other_id = qqlist.get(0).getOtherId();
+
+
+                    TextView hostname = findViewById(R.id.leave_host);
+                    hostname.setText(host);
+
+                    TextView details = findViewById(R.id.leave_details);
+                    details.setText(roomDetail);
+
+                    ImageView imageView = findViewById(R.id.leave_img);
+                    Glide.with(LeaveActivity.this).load(imageUrl).into(imageView);
+
+                    TextView roomname = findViewById(R.id.leave_roomname);
+                    roomname.setText(roomName);
+
+                    if (other_id != null) {
+                        TextView join_btn = findViewById(R.id.leave_join);
+                        join_btn.setVisibility(View.GONE);
+                        TextView full = findViewById(R.id.leave_unavail);
+                        full.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RoomData>> call, Throwable t) {
+                Log.d("CCCCCCCCCC", t.getMessage());
+            }
+        });
+    }
+
+    //room 데이터 베이스에 other_id 값 삽입
+    private  void postOtherId(){
+
+        jsonPlaceHolderApi.postOtherId(user_id, roomId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+
+        });
+    }
+
 }

@@ -3,95 +3,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/leave_roomname"
+        android:text="RoomName"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:textSize="35dp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_margin="50dp">
+        android:orientation="vertical"
+        android:background="@drawable/round_bg2"
+        android:elevation="5dp"
+        android:layout_margin="35dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_marginTop="70dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/leave_img" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leave_host"
+            android:text="name"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leave_details"
+            android:text="details"
+            android:layout_marginTop="5dp"
+            android:textSize="40sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/leave_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/round_bg2"
-                    android:clipToOutline="true"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/leave_join"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_margin="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이름"
-                    android:id="@+id/leave_host" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="참가"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="10dp" />
 
-                <TextView
-                    android:id="@+id/leave_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="leave_details" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/leave_unavail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="F U L L"
+                android:textSize="25dp"
+                android:textColor="#FF0000"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:visibility="invisible"
+                android:paddingBottom="10dp" />
 
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="퇴근을 기다리고 있어요!"
-            android:layout_gravity="center"/>
+        </RelativeLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-        <Button
-            android:id="@+id/leave"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:onClick="clickHandler"
-            android:text="퇴근"/>
-        <Button
-            android:id="@+id/invite"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:onClick="clickHandler"
-            android:text="초대"/>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:layout_gravity="center" />
-
-    <Button
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/join"
-        android:text="참가" />
-
 
 
 </LinearLayout>

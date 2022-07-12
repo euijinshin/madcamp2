@@ -6,6 +6,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -22,11 +24,23 @@ public interface JsonPlaceHolderApi {
     @GET("get/room")
     Call<List<RoomData>> gets(@Query("id") int id);
 
+    @GET("get/other_id")
+    Call<Integer> getOtherId(@Query("user_id") int id, @Query("id") int room_id);
+
     @GET("get/myroom")
     Call<List<RoomData>> getMyroom(@Query("id") int id);
 
+    @GET("get/user_id")
+    Call<List<RoomData>> getRoom(@Query("user_id") int id);
     @POST("post/room")
     Call<String> posts(@Body RoomData roomData);
+
+    @FormUrlEncoded
+    @POST("post/other_id")
+    Call<String> postOtherId(@Field("user_id") int id, @Field("id") int room_id);
+
+    @GET("get/other_id")
+    Call<List<RoomData>> getOtherId(@Query("user_id") int id);
 
     @POST("post")
     Call<String> createPosts(@Body Post post );

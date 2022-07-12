@@ -19,7 +19,7 @@ public class RoomData {
     private int hostCode;
 
     @SerializedName("other_id")
-    private int otherId;
+    private Integer otherId;
 
     @SerializedName("NAME")
     private String hostName;
@@ -45,7 +45,7 @@ public class RoomData {
         this.otherId = otherId;
     }
 
-    public int getOtherId() {
+    public Integer getOtherId() {
         return otherId;
     }
 

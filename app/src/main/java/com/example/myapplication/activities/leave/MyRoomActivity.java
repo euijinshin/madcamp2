@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.main.JsonPlaceHolderApi;
+import com.example.myapplication.main.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -32,11 +35,9 @@ public class MyRoomActivity extends AppCompatActivity {
     ArrayList<JoinMember> list;
     MyRoomAdapter adapter;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
-    int user_id;
+    Integer user_id, other_id;
     List<RoomData> qqlist;
-    String roomName, imgUrl, roomDetails;
-
-
+    String roomName, imgUrl, roomDetails, other_gender, other_name;
 
 
     @Override
@@ -62,53 +63,74 @@ public class MyRoomActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        gets();
+        LinearLayout yesno = findViewById(R.id.yesno);
 
-//        list = new ArrayList<>();
-//
-//        RecyclerView recyclerView = findViewById(R.id.rv_myroom);
-//        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-//
-//        adapter = new MyRoomAdapter(MyRoomActivity.this, list);
-//        recyclerView.setAdapter(adapter);
-//
-//        JoinMember joinMember1 = new JoinMember("Samuel", "5", "imgUrl");
-//        JoinMember joinMember2 = new JoinMember("John", "4", "imgUrl");
-//        JoinMember joinMember3 = new JoinMember("Kim", "1", "imgUrl");
-//        JoinMember joinMember4 = new JoinMember("Lucy", "2", "imgUrl");
-//        list.add(joinMember1);
-//        list.add(joinMember2);
-//        list.add(joinMember3);
-//        list.add(joinMember4);
-//
-//        adapter.notifyDataSetChanged();
+        TextView accept = findViewById(R.id.accept);
+        TextView reject = findViewById(R.id.reject);
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                yesno.setVisibility(View.GONE);
+            }
+        });
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                yesno.setVisibility(View.GONE);
+            }
+        });
+
+        getRoom();
     }
 
-    private void gets() {
-        jsonPlaceHolderApi.gets(user_id).enqueue(new Callback<List<RoomData>>() {
+
+    private void getRoom() {
+        jsonPlaceHolderApi.getRoom(user_id).enqueue(new Callback<List<RoomData>>() {
             @Override
             public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
-                if (response.isSuccessful()) {
+                qqlist = response.body();
+
+                roomName = qqlist.get(0).getRoomName();
+                roomDetails = qqlist.get(0).getRoomDetails();
+                if (qqlist.get(0).getOtherId() == null) other_id = -1;
+                else other_id = qqlist.get(0).getOtherId();
+                other_gender = qqlist.get(0).getHostGender();
+                other_name = qqlist.get(0).getHostName();
+                imgUrl = qqlist.get(0).getHostImg();
 
 
-                    Log.d("ddddd", "ddd");
-                    qqlist = response.body();
+//                TextView hostname = findViewById(R.id.leave_host);
+//                hostname.setText(host);
 
-                    roomName = qqlist.get(0).getRoomName();
-                    roomDetails = qqlist.get(0).getRoomDetails();
-                    imgUrl = qqlist.get(0).getImageUrl();
+                TextView details = findViewById(R.id.myroomDetails);
+                details.setText(roomDetails);
 
+                TextView roomname = findViewById(R.id.myroomName);
+                roomname.setText(roomName);
 
-                    TextView hostname = findViewById(R.id.myroomName);
-                    hostname.setText(roomName);
+                ImageView imageView = findViewById(R.id.people_img);
+                Glide.with(MyRoomActivity.this).load(imgUrl).into(imageView);
 
-                    TextView details = findViewById(R.id.myroomDetails);
-                    details.setText(roomDetails);
+                TextView joinname = findViewById(R.id.people_name);
+                joinname.setText(other_name);
 
-//                    ImageView img = findViewById(R.id.myr);
+                TextView joingender = findViewById(R.id.people_detail);
+                joingender.setText(other_gender);
 
-//                    Glide.with(MyRoomActivity.this).load(imgUrl).into(img);
-                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RoomData>> call, Throwable t) {
+                Log.d("FF", t.getMessage());
+            }
+        });
+    }
+
+    private void getOtherId() {
+        jsonPlaceHolderApi.getOtherId(user_id).enqueue(new Callback<List<RoomData>>() {
+            @Override
+            public void onResponse(Call<List<RoomData>> call, Response<List<RoomData>> response) {
+
             }
             @Override
             public void onFailure(Call<List<RoomData>> call, Throwable t) {
@@ -116,18 +138,4 @@ public class MyRoomActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void getUser() {
-//        jsonPlaceHolderApi.getId(user_id).enqueue(new Callback<List<String>>() {
-//            @Override
-//            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<String>> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 }

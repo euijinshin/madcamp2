@@ -59,7 +59,6 @@ public class MyRoomAdapter extends RecyclerView.Adapter<MyRoomAdapter.ViewHolder
                 public boolean onLongClick(View view) {
                     int pos = getAdapterPosition();
                     mData.remove(pos);
-
                     notifyDataSetChanged();
                     return true;
                 }

@@ -2,6 +2,7 @@ package com.example.myapplication.main;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.activities.MapFragment;
 import com.example.myapplication.activities.RuntimeActivity;
 import com.example.myapplication.activities.leave.CreateRoomActivity;
 import com.example.myapplication.activities.leave.LeaveActivity;
@@ -82,10 +84,15 @@ public class MainActivity extends AppCompatActivity {
 
         setValues();
 
+        Fragment fragment = new MapFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, fragment).commit();
+
+
         // 닉네임, email, details set
         tv_nick.setText(strNick);
-        tv_email.setText(strEmail);
-        tv_details.setText(strAge + ", " + strGender);
+//        tv_email.setText(strEmail);
+//        tv_details.setText(strAge + ", " + strGender);
 
         //프로필 이미지 사진 set
         Glide.with(this).load(strProfileImg).into(iv_profile);
@@ -112,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView textView = findViewById(R.id.tv_mainCounter);
                 textView.setText(workTime);
 
-                LinearLayout linearLayout = findViewById(R.id.linear_worktime);
-                linearLayout.setVisibility(View.VISIBLE);
+//                LinearLayout linearLayout = findViewById(R.id.linear_worktime);
+//                linearLayout.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -127,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
         logout_btn = findViewById(R.id.logout_btn);
         //profile set
         tv_nick = findViewById(R.id.tv_nickname);
-        tv_email = findViewById(R.id.tv_email);
-        tv_details = findViewById(R.id.details);
+//        tv_email = findViewById(R.id.tv_email);
+//        tv_details = findViewById(R.id.details);
         iv_profile = findViewById(R.id.iv_profile);
         tv_maincounter = findViewById(R.id.tv_mainCounter);
 //        text = findViewById(R.id.text);
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         // Profile get from kakao
         strNick = intent.getStringExtra("name");
         strProfileImg = intent.getStringExtra("profileImg");
-        strEmail = intent.getStringExtra("email");
+//        strEmail = intent.getStringExtra("email");
         strGender = intent.getStringExtra("gender");
         strAge = "20";//intent.getStringExtra("age");
 

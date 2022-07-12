@@ -64,9 +64,12 @@ public class LogInActivity extends AppCompatActivity {
                         intent.putExtra("email", result.getKakaoAccount().getEmail());
                         intent.putExtra("gender", result.getKakaoAccount().getGender().getValue());
                         intent.putExtra("age", result.getKakaoAccount().getAgeRange());
-                        startActivity(intent);
+
+                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
                         Toast.makeText(LogInActivity.this, "환영합니다!", Toast.LENGTH_SHORT).show();
+
+                        LogInActivity.this.finish();
                     }
                 });
             }

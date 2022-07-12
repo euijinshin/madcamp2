@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class RuntimeActivity extends AppCompatActivity {
 
-    TextView startTimeSet, endTimeSet;
+    TextView startTimeSet, endTimeSet, work_text;
 
     long start, stop, savedStart;
     Date dateStart, dateStop;
@@ -55,6 +55,8 @@ public class RuntimeActivity extends AppCompatActivity {
             start = savedStart;
             dateStart = new Date(start);
 
+            work_text.setText("몰입 중");
+
             startTimeSet.setText(passFormat.format(dateStart));
         }
 
@@ -68,6 +70,7 @@ public class RuntimeActivity extends AppCompatActivity {
                 running = true;
                 isStart = true;
 
+                work_text.setText("몰입 중");
 
                 Stop.setVisibility(View.VISIBLE);
                 Start.setVisibility(View.GONE);
@@ -99,6 +102,8 @@ public class RuntimeActivity extends AppCompatActivity {
 
                 Stop.setVisibility(View.GONE);
                 String workTime = passFormat.format(dateStop);
+
+                work_text.setText("퇴근!");
 
                 endTimeSet.setText(workTime);
 //                endTimeSet.setText(strTime);
@@ -194,5 +199,6 @@ public class RuntimeActivity extends AppCompatActivity {
         Stop = findViewById(R.id.SWStop);
 
         endTimeSet = findViewById(R.id.endWork);
+        work_text = findViewById(R.id.work_text);
     }
 }
