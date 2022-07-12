@@ -29,22 +29,29 @@ public class MapFragment extends Fragment {
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
+                GoogleMap map = googleMap;
+                MarkerOptions areum = new MarkerOptions();
+                LatLng aLatLng = new LatLng(36.3738, 127.3567);
+                areum.position(aLatLng);
+                areum.title("아름관");
+                areum.snippet("여자 기숙사");
+
+                map.addMarker(areum);
+
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(@NonNull LatLng latLng) {
                         // when clicked on map
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        //Set title of marker
-                        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-                        //remove all marker
-                        googleMap.clear();
-                        //animations
+//                        MarkerOptions markerOptions = new MarkerOptions();
+//                        markerOptions.position(latLng);
+//                        //Set title of marker
+//                        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+//                        //animations
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                 latLng, 10
                         ));
 
-                        googleMap.addMarker(markerOptions);
+//                        googleMap.addMarker(markerOptions);
                     }
                 });
             }

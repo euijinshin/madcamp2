@@ -123,9 +123,9 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
         dialog.show();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        String image = mData.get(pos).getImageUrl();
-        String name = mData.get(pos).getRoomName();
-        String details = mData.get(pos).getRoomDetails();
+        String image = mData.get(pos).getHostImg();
+        String name = mData.get(pos).getHostName();
+        String details = mData.get(pos).getHostGender();
 
         ImageView iv_image = dialog.findViewById(R.id.dialog_img);
         TextView tv_name = dialog.findViewById(R.id.dialog_name);
@@ -133,6 +133,7 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
 
         tv_name.setText(name);
         tv_details.setText(details);
+        Glide.with(context).load(image).into(iv_image);
 
         Button confirm_btn = dialog.findViewById(R.id.dialog_confirm);
         confirm_btn.setOnClickListener(new View.OnClickListener() {

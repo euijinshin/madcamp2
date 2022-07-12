@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         tv_details = findViewById(R.id.details);
         iv_profile = findViewById(R.id.iv_profile);
         tv_maincounter = findViewById(R.id.tv_mainCounter);
-        text = findViewById(R.id.text);
+//        text = findViewById(R.id.text);
     }
 
     public void initIntent() {
@@ -207,12 +207,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                text.setText("success");
+//                text.setText("success");
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                text.setText("실패");
+//                text.setText("실패");
                 Log.d("AAAAAAAAAAAA ", t.getMessage());
 //                Toast.makeText(this, "failed to get info", Toast.LENGTH_SHORT);
             }
@@ -234,10 +234,10 @@ public class MainActivity extends AppCompatActivity {
 //                    }
                     user_id = qqlist.get(0).getId();
                     strGender = qqlist.get(0).getGender();
-                    text.setText(Integer.toString(user_id));
+//                    text.setText(Integer.toString(user_id));
                 }
                 else {
-
+                    Toast.makeText(MainActivity.this, "not connected", Toast.LENGTH_SHORT);
                 }
             }
 

@@ -9,6 +9,8 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:background="@drawable/round_bg2"
+            android:clipToOutline="true"
             android:layout_width="80dp"
             android:layout_height="80dp" />
         <TextView

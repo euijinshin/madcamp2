@@ -21,6 +21,19 @@ public class RoomData {
     @SerializedName("other_id")
     private int otherId;
 
+    @SerializedName("NAME")
+    private String hostName;
+
+    @SerializedName("IMG")
+    private String hostImg;
+
+    @SerializedName("GENDER")
+    private String hostGender;
+
+//    private String otherName;
+//    private String otherImg;
+//    private String otherGender;
+
     public RoomData(String imageUrl,String roomName, String roomDetails, int hostCode) {
         this.roomName = roomName;
         this.roomDetails = roomDetails;
@@ -78,5 +91,29 @@ public class RoomData {
 
     public void setRoomId(int roomId) {
         this.roomId = roomId;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getHostImg() {
+        return hostImg;
+    }
+
+    public void setHostImg(String hostImg) {
+        this.hostImg = hostImg;
+    }
+
+    public String getHostGender() {
+        return hostGender;
+    }
+
+    public void setHostGender(String hostGender) {
+        this.hostGender = hostGender;
     }
 }

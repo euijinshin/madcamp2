@@ -64,24 +64,24 @@ public class MyRoomActivity extends AppCompatActivity {
 
         gets();
 
-        list = new ArrayList<>();
-
-        RecyclerView recyclerView = findViewById(R.id.rv_myroom);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-
-        adapter = new MyRoomAdapter(MyRoomActivity.this, list);
-        recyclerView.setAdapter(adapter);
-
-        JoinMember joinMember1 = new JoinMember("Samuel", "5", "imgUrl");
-        JoinMember joinMember2 = new JoinMember("John", "4", "imgUrl");
-        JoinMember joinMember3 = new JoinMember("Kim", "1", "imgUrl");
-        JoinMember joinMember4 = new JoinMember("Lucy", "2", "imgUrl");
-        list.add(joinMember1);
-        list.add(joinMember2);
-        list.add(joinMember3);
-        list.add(joinMember4);
-
-        adapter.notifyDataSetChanged();
+//        list = new ArrayList<>();
+//
+//        RecyclerView recyclerView = findViewById(R.id.rv_myroom);
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+//
+//        adapter = new MyRoomAdapter(MyRoomActivity.this, list);
+//        recyclerView.setAdapter(adapter);
+//
+//        JoinMember joinMember1 = new JoinMember("Samuel", "5", "imgUrl");
+//        JoinMember joinMember2 = new JoinMember("John", "4", "imgUrl");
+//        JoinMember joinMember3 = new JoinMember("Kim", "1", "imgUrl");
+//        JoinMember joinMember4 = new JoinMember("Lucy", "2", "imgUrl");
+//        list.add(joinMember1);
+//        list.add(joinMember2);
+//        list.add(joinMember3);
+//        list.add(joinMember4);
+//
+//        adapter.notifyDataSetChanged();
     }
 
     private void gets() {
@@ -105,9 +105,9 @@ public class MyRoomActivity extends AppCompatActivity {
                     TextView details = findViewById(R.id.myroomDetails);
                     details.setText(roomDetails);
 
-                    ImageView img = findViewById(R.id.myroomImg);
+//                    ImageView img = findViewById(R.id.myr);
 
-                    Glide.with(MyRoomActivity.this).load(imgUrl).into(img);
+//                    Glide.with(MyRoomActivity.this).load(imgUrl).into(img);
                 }
             }
             @Override
