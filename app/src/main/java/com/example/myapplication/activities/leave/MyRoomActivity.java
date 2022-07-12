@@ -29,16 +29,20 @@ public class MyRoomActivity extends AppCompatActivity {
     ArrayList<JoinMember> list;
     MyRoomAdapter adapter;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
+    int user_id;
 
 
-    Intent secondIntent = getIntent();
-    int user_id = secondIntent.getIntExtra("user_id", 0);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_room);
+
+
+        Intent secondIntent = getIntent();
+        user_id = secondIntent.getIntExtra("user_id", 0);
+
 
 
 
@@ -59,7 +63,7 @@ public class MyRoomActivity extends AppCompatActivity {
         list = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.rv_myroom);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
         adapter = new MyRoomAdapter(MyRoomActivity.this, list);
         recyclerView.setAdapter(adapter);

@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class RoomData {
+    @SerializedName("id")
+    private int roomId;
     @SerializedName("img")
     private String imageUrl;
     @SerializedName("roomName")
@@ -17,7 +19,7 @@ public class RoomData {
     private int hostCode;
 
     @SerializedName("other_id")
-    private List<Integer> otherId;
+    private int otherId;
 
     public RoomData(String imageUrl,String roomName, String roomDetails, int hostCode) {
         this.roomName = roomName;
@@ -26,11 +28,15 @@ public class RoomData {
         this.imageUrl = imageUrl;
     }
 
-    public List<Integer> getOtherId() {
+    public RoomData(int otherId) {
+        this.otherId = otherId;
+    }
+
+    public int getOtherId() {
         return otherId;
     }
 
-    public void setOtherId(List<Integer> otherId) {
+    public void setOtherId(int otherId) {
         this.otherId = otherId;
     }
 
@@ -64,5 +70,13 @@ public class RoomData {
 
     public void setHostCode(int hostCode) {
         this.hostCode = hostCode;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 }

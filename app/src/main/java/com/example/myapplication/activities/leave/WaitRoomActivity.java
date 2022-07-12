@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,10 +54,12 @@ public class WaitRoomActivity extends AppCompatActivity {
 
     List<RoomData> qqlist;
 
+    public static Context mContext;
+
 //    List<Integer> otherList;
 
 
-    int user_id;
+    public int user_id;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -95,6 +99,8 @@ public class WaitRoomActivity extends AppCompatActivity {
 
         setValue();
         gets();
+
+        mContext = this;
 
 
     }
@@ -141,7 +147,7 @@ public class WaitRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WaitRoomActivity.this, MyRoomActivity.class);
-                intent = intent.putExtra("user_id", user_id);
+                intent.putExtra("user_id", user_id);
                 startActivity(intent);
             }
         });

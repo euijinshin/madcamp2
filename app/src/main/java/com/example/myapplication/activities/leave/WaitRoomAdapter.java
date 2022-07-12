@@ -1,5 +1,6 @@
 package com.example.myapplication.activities.leave;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -51,9 +52,12 @@ public class WaitRoomAdapter extends RecyclerView.Adapter<WaitRoomAdapter.ViewHo
                     if (pos != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(context, LeaveActivity.class);
 
-                        intent.putExtra("image", mData.get(pos).getImageUrl());
-                        intent.putExtra("name", mData.get(pos).getRoomName());
-                        intent.putExtra("details", mData.get(pos).getRoomDetails());
+//                        intent.putExtra("image", mData.get(pos).getImageUrl());
+//                        intent.putExtra("name", mData.get(pos).getRoomName());
+//                        intent.putExtra("details", mData.get(pos).getRoomDetails());
+
+                        intent.putExtra("roomId", mData.get(pos).getRoomId());
+                        intent.putExtra("user_id", ((WaitRoomActivity) WaitRoomActivity.mContext).user_id);
 
                         context.startActivity(intent);
                     }
