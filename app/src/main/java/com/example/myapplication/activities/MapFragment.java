@@ -29,14 +29,31 @@ public class MapFragment extends Fragment {
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
-                GoogleMap map = googleMap;
+//                GoogleMap map = googleMap;
+
                 MarkerOptions areum = new MarkerOptions();
                 LatLng aLatLng = new LatLng(36.3738, 127.3567);
                 areum.position(aLatLng);
                 areum.title("아름관");
                 areum.snippet("여자 기숙사");
 
-                map.addMarker(areum);
+                MarkerOptions sarang = new MarkerOptions();
+                LatLng sLatLng = new LatLng(36.3737, 127.3586);
+                sarang.position(sLatLng);
+                sarang.title("사랑관");
+                sarang.snippet("남자 기숙사");
+
+                MarkerOptions ee = new MarkerOptions();
+                LatLng eeLatLng = new LatLng(36.3739, 127.3656);
+                ee.position(eeLatLng);
+                ee.title("N1");
+                ee.snippet("실습실");
+
+                googleMap.addMarker(areum);
+                googleMap.addMarker(sarang);
+                googleMap.addMarker(ee);
+
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(eeLatLng, 16));
 
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
@@ -48,7 +65,7 @@ public class MapFragment extends Fragment {
 //                        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
 //                        //animations
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                latLng, 10
+                                latLng, 17
                         ));
 
 //                        googleMap.addMarker(markerOptions);
